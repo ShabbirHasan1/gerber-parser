@@ -308,13 +308,6 @@ fn parse_image_name(line: &str, gerber_doc: &GerberDoc) -> Result<String, Gerber
     }
 }
 
-// Add this function to handle aperture definitions that use macros
-fn parse_aperture_definition_with_macro(code: i32, macro_name: &str) -> Result<Command, GerberParserError> {
-    Ok(Command::ExtendedCode(ExtendedCode::ApertureDefinition(
-        ApertureDefinition::new(code, Aperture::Other(macro_name.to_string()))
-    )))
-}
-
 /// Safety: the method should only be called if the line starts with %AM
 fn parse_aperture_macro_definition<T: Read>(line: &str, parser_context: &mut ParserContext<T>, gerber_doc: &GerberDoc) -> Result<ApertureMacro, GerberParserError> {
     if line.starts_with("%AM") && line.ends_with("*") {
